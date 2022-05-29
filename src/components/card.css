@@ -1,0 +1,61 @@
+.card {
+    background-color: transparent;
+    perspective: 1000px;
+    width: 120px;
+    aspect-ratio: 209/303;
+    transition: opacity 1s;
+    /* visibility: visible; */
+}
+
+.card.hide {
+    /* visibility: hidden; */
+    pointer-events: none;
+    opacity: 0;
+}
+
+.card img {
+     width: 120px;
+    pointer-events: none;
+}
+
+.card.selected, .card:active {
+    border: 5px solid goldenrod;
+    border-radius: 5px;
+}
+
+/* .card:hover{
+    border: 5px solid goldenrod;
+    border-radius: 5px;
+} */
+
+.card-inner {
+    pointer-events: none;
+    position:relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.25s;
+    transform-style: preserve-3d;
+}
+/* , .card:hover .card-inner */
+.card.turned .card-inner{
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.card-back {
+    background-color: brown;
+    color: white;
+}
+
+.card-front {
+    background-color: azure;
+    color: black;
+    transform: rotateY(180deg);
+}
