@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Options from "./options";
 
-function Status({ score, bounty, pairs, report }) {
+function Status({ score, highScore, bounty, pairs, pairsLeft, message, report }) {
   return (
-    <div id="game-status">
-      <h1>Memory game</h1>
-      <p>Match the pairs by clicking on cards.</p>
-      <p>Score: {score}</p>
+    <div id="game-status" style={{ textAlign: "left", margin: "10px" }}>
+      <h1>Memory Game</h1>
+      <h4>{message}</h4>
+      <p>
+        Score: {score}
+        {highScore > 0 ? ` (best: ${highScore})` : ""}
+      </p>
       <p>Reward: {bounty}</p>
-      <p>Pairs: {pairs} (left)</p>
+      <p>Pairs: {pairsLeft} (left)</p>
       <Options pairCount={pairs} report={report} />
     </div>
   );

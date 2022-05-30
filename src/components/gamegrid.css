@@ -1,6 +1,7 @@
 .game-grid {
     --cards-in-row: 6;
-    --gap: 5px;
+    --gap: 9px;
+    margin:10px;
     display: grid;
     grid-template-columns: repeat(var(--cards-in-row), auto);
     /* grid-template-rows: auto; */

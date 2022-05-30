@@ -5,45 +5,51 @@ import GameGrid from "./gamegrid";
 function Manager() {
   const [selection, setSelection] = useState([]);
   const [allCards, setAllCards] = useState({});
+  const [gameStat, setGameStat] = useState({ score: 0, bounty: 10, guesses: 0, pairsLeft: 10, highScore: 0 });
   const [score, setScore] = useState(0);
-  const [bounty, setBounty] = useState(0);
-  const [pairs, setPairs] = useState(12);
-  const [pairsLeft, setPairsLeft] = useState(12);
+  const [bounty, setBounty] = useState(10);
+  const [pairs, setPairs] = useState(10);
+  const [pairsLeft, setPairsLeft] = useState(10);
   const [maxRows, setMaxRows] = useState(6);
   const [guesses, setGuesses] = useState(0);
   const [gameState, setGameState] = useState("play");
   const [message, setMessage] = useState("Start playing by clicking on the cards!");
 
-  //const hideCard = (card) => card.trg.classList.add("hide");
-  const bountyLimit = (b) => Math.max(Math.min(b, pairsLeft - 1), 5);
+  const bountyLimit = (b) => Math.max(Math.min(b, gameStat.pairsLeft), 3);
   const match = (cardA, cardB) => {
-    setGuesses(guesses + 1);
+    // console.log(`Guesses: ${guesses}, bounty: ${bounty}, pairs left: ${pairsLeft}, score: ${score}`);
+    setGuesses(++gameStat.guesses);
     cardA.turn(true);
     cardB.turn(true);
-    console.log(cardA, cardB);
     if (cardA.symbol === cardB.symbol) {
-      setScore(score + bounty);
-      setPairsLeft(pairsLeft - 1);
-      setBounty(bountyLimit(bounty + 1));
       cardA.hide(true);
       cardB.hide(true);
-      if (pairsLeft === 1) {
-        setMessage("You won the game!");
+      gameStat.score += gameStat.bounty;
+      setScore(gameStat.score);
+      setPairsLeft(--gameStat.pairsLeft);
+      gameStat.bounty = bountyLimit(gameStat.bounty + 1);
+      if (gameStat.pairsLeft === 0) {
+        if (gameStat.score > gameStat.highScore) {
+          setMessage("A new high score! Conrats!");
+          gameStat.highScore = gameStat.score;
+        } else {
+          setMessage("You won the game!");
+        }
         setGameState("ended");
       } else {
         setMessage("You found a pair!");
       }
     } else {
-      setMessage("Try again!");
-      setBounty(bountyLimit(bounty - 1));
+      setMessage("No luck! Try again!");
+      gameStat.bounty = bountyLimit(gameStat.bounty - 1);
     }
+    setBounty(gameStat.bounty);
   };
 
   const makeSelection = (...cards) => {
     selection.splice(0, selection.length);
     selection.push(...cards);
     //    setSelection(cards);
-    console.log(cards);
     cards.forEach((x) => x.select(true));
   };
 
@@ -69,7 +75,6 @@ function Manager() {
   const handleClick = (trg, select, turn, hide) => {
     const current = { trg, symbol: trg.dataset.symbol, index: trg.dataset.index, select, turn, hide };
     allCards[current.index] = current;
-    //turn(true);
     switch (selection.length) {
       case 0:
         return makeSelection(current);
@@ -88,8 +93,6 @@ function Manager() {
   };
 
   const cardsReady = () => {
-    // const cards = document.getElementById("grid").children;
-    // for (const elem of cards) elem.classList.remove("selected", "turned", "hide");
     for (const key in allCards) {
       const val = allCards[key];
       if (typeof val === "undefined") continue;
@@ -103,16 +106,25 @@ function Manager() {
 
   const accept = ({ pairs: pairCount }) => {
     setPairs(pairCount);
-    setScore(0);
-    setBounty(pairCount);
-    setPairsLeft(pairCount);
+    setScore((gameStat.score = 0));
+    setBounty((gameStat.bounty = pairCount));
+    setPairsLeft((gameStat.pairsLeft = pairCount));
+    setGuesses((gameStat.guesses = 0));
     setMessage("Start playing by clicking on the cards!");
     setGameState("start");
   };
 
   return (
     <div id="manager" style={{ display: "flex" }}>
-      <Status score={score} bounty={bounty} message={message} pairs={pairsLeft} report={accept} />
+      <Status
+        score={score}
+        highScore={gameStat.highScore}
+        bounty={bounty}
+        message={message}
+        pairsLeft={pairsLeft}
+        pairs={pairs}
+        report={accept}
+      />
       <GameGrid
         cardCount={2 * pairs}
         cardsInRow={cardCols(pairs)}

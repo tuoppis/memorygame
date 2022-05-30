@@ -1,9 +1,9 @@
 .card {
     background-color: transparent;
     perspective: 1000px;
-    width: 120px;
+    width: 90px;
     aspect-ratio: 209/303;
-    transition: opacity 1s;
+    transition: opacity 0.5s ease-in;
     /* visibility: visible; */
 }
 
@@ -14,19 +14,15 @@
 }
 
 .card img {
-     width: 120px;
+    width: 90px;
     pointer-events: none;
 }
 
 .card.selected, .card:active {
-    border: 5px solid goldenrod;
-    border-radius: 5px;
+    /* border: 5px solid goldenrod; */
+    /* border-radius: 5px; */
+    box-shadow: 0 0 9px 9px goldenrod;
 }
-
-/* .card:hover{
-    border: 5px solid goldenrod;
-    border-radius: 5px;
-} */
 
 .card-inner {
     pointer-events: none;
