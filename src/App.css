@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+#options {
+  display: grid;
+  /* flex-flow: row wrap; */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+}
+#options label {
+  grid-column:span 2;
+}
+#options input {
+  flex-grow: 1;
+  max-width: 50%;
+  
+}
+#options >button {
+  flex-grow: 1;
+}

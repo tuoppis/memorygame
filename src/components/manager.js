@@ -26,7 +26,7 @@ function Manager() {
       gameStat.score += gameStat.bounty;
       setScore(gameStat.score);
       setPairsLeft(--gameStat.pairsLeft);
-      gameStat.bounty = bountyLimit(gameStat.bounty + 1);
+      gameStat.bounty = bountyLimit(gameStat.bounty + 2);
       if (gameStat.pairsLeft === 0) {
         if (gameStat.score > gameStat.highScore) {
           setMessage("A new high score! Conrats!");
