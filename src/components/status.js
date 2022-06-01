@@ -3,9 +3,8 @@ import Options from "./options";
 
 function Status({ score, highScore, bounty, pairs, pairsLeft, message, report }) {
   return (
-    <div id="game-status" style={{ textAlign: "left", margin: "10px" }}>
+    <div id="game-status" style={{ textAlign: "left", margin: "10px", width: "250px" }}>
       <h1>Memory Game</h1>
-      <h4>{message}</h4>
       <p>
         Score: {score}
         {highScore > 0 ? ` (best: ${highScore})` : ""}
@@ -13,6 +12,7 @@ function Status({ score, highScore, bounty, pairs, pairsLeft, message, report })
       <p>Reward: {bounty}</p>
       <p>Pairs: {pairsLeft} (left)</p>
       <Options pairCount={pairs} report={report} />
+      <h4>{message}</h4>
     </div>
   );
 }

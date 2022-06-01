@@ -15,9 +15,8 @@ function Manager() {
   const [gameState, setGameState] = useState("play");
   const [message, setMessage] = useState("Start playing by clicking on the cards!");
 
-  const bountyLimit = (b) => Math.max(Math.min(b, gameStat.pairsLeft), 3);
+  const bountyLimit = (b) => Math.max(Math.min(b, gameStat.pairsLeft), 1);
   const match = (cardA, cardB) => {
-    // console.log(`Guesses: ${guesses}, bounty: ${bounty}, pairs left: ${pairsLeft}, score: ${score}`);
     setGuesses(++gameStat.guesses);
     cardA.turn(true);
     cardB.turn(true);
@@ -49,7 +48,6 @@ function Manager() {
   const makeSelection = (...cards) => {
     selection.splice(0, selection.length);
     selection.push(...cards);
-    //    setSelection(cards);
     cards.forEach((x) => x.select(true));
   };
 
@@ -59,7 +57,6 @@ function Manager() {
       card.turn(false);
     });
     selection.splice(0, selection.length);
-    //setSelection([]);
   };
 
   const cardCols = (pairs) => {

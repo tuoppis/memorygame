@@ -14,10 +14,10 @@ function Options({ pairCount, report }) {
     <div id="options">
       <label>
         Pairs:
-        <br />
-        <input type="nunber" value={pairs} onChange={handleValue} />
+        {/* <br /> */}
+        <input type="number" value={pairs} onChange={handleValue} />
       </label>
-      <button onClick={() => report({ pairs })}>New Game?</button>
+      <button onClick={() => report({ pairs })}>New Game</button>
     </div>
   );
 }
