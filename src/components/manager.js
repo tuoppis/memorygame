@@ -5,7 +5,7 @@ import GameGrid from "./gamegrid";
 function Manager() {
   const [selection, setSelection] = useState([]);
   const [allCards, setAllCards] = useState({});
-  const [gameStat, setGameStat] = useState({ score: 0, bounty: 10, guesses: 0, pairsLeft: 10, highScore: 0 });
+  const [gameStat, setGameStat] = useState({ score: 0, bounty: 10, guesses: 0, pairsLeft: 10, highScores: [] });
   const [score, setScore] = useState(0);
   const [bounty, setBounty] = useState(10);
   const [pairs, setPairs] = useState(10);
@@ -28,9 +28,9 @@ function Manager() {
       setPairsLeft(--gameStat.pairsLeft);
       gameStat.bounty = bountyLimit(gameStat.bounty + 2);
       if (gameStat.pairsLeft === 0) {
-        if (gameStat.score > gameStat.highScore) {
-          setMessage("A new high score! Conrats!");
-          gameStat.highScore = gameStat.score;
+        if (!(gameStat.score <= gameStat.highScores[pairs])) {
+          setMessage("A new high score! Congrats!");
+          gameStat.highScores[pairs] = gameStat.score;
         } else {
           setMessage("You won the game!");
         }
@@ -115,7 +115,7 @@ function Manager() {
     <div id="manager" style={{ display: "flex" }}>
       <Status
         score={score}
-        highScore={gameStat.highScore}
+        highScore={gameStat.highScores[pairs]}
         bounty={bounty}
         message={message}
         pairsLeft={pairsLeft}

@@ -1,5 +1,15 @@
 import { useState } from "react";
 
+function OptionButton({ title, value, callback }) {
+  return (
+    <button onClick={() => callback(value)}>
+      <b>{title}</b>
+      <br />
+      {value}
+    </button>
+  );
+}
+
 function Options({ pairCount, report }) {
   const [pairs, setPairs] = useState(pairCount);
 
@@ -10,14 +20,26 @@ function Options({ pairCount, report }) {
     setPairs(val || 10);
   };
 
+  const handleButton = (value) => {
+    setPairs(value);
+    report({ pairs: value });
+  };
+
   return (
     <div className="options-area" id="options">
       <label>
         Pairs: <input type="number" value={pairs} onChange={handleValue} />
       </label>
 
-      <button onClick={() => report({ pairs })}>
-        <b>New</b>
+      <OptionButton title="Custom" value={pairs} callback={handleButton} />
+      <OptionButton title="Small" value={6} callback={handleButton} />
+      <OptionButton title="Medium" value={10} callback={handleButton} />
+      <OptionButton title="Large" value={15} callback={handleButton} />
+      <OptionButton title="Extra" value={21} callback={handleButton} />
+      <OptionButton title="Super" value={27} callback={handleButton} />
+      <OptionButton title="Mega" value={36} callback={handleButton} />
+      {/* <button onClick={() => report({ pairs })}>
+        <b>Custom</b>
         <br />
         {pairs}
       </button>
@@ -79,7 +101,7 @@ function Options({ pairCount, report }) {
         <b>Mega</b>
         <br />
         36
-      </button>
+      </button> */}
     </div>
   );
 }
