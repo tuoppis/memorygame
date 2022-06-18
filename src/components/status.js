@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import Options from "./options";
 
-const sqrtScale = (score, pairs) => {
-  const val = Math.sqrt((2 * (score - pairs)) / (pairs * (pairs - 1)));
-  return val > 0 ? 5 * val : 0;
-};
-
+// linear scale: score<=min -> 0, score==max -> 5
 const linScale = (score, pairs) => (score > pairs ? (10 * (score - pairs)) / (pairs * (pairs - 1)) : 0);
 
 function Status({ score, highScore, bounty, pairs, pairsLeft, message, report }) {
-  const rating = Math.ceil(linScale(score, pairs));
+  const rating = Math.round(linScale(score, pairs));
 
   return (
     <div id="game-status" style={{ textAlign: "left", margin: "10px", width: "250px" }}>
