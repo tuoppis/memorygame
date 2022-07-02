@@ -134,9 +134,11 @@ export default class GameState extends GameEventHandler {
       default:
         if (this.#selected[0].index !== cardInfo.index && this.#selected[1].index !== cardInfo.index) {
           this.#clearSelect();
+          this.#setValue("message", "Good, now select another card.");
           this.#select(cardInfo);
         } else {
           this.#clearSelect();
+          this.#setValue("message", "Select a card.");
         }
     }
   }
