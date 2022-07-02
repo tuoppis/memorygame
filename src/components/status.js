@@ -4,25 +4,21 @@ import Options from "./options";
 
 function Status() {
   const gameState = useContext(AppContext);
-  //const [pairs, setPairs] = useState(gameState.pairs);
   const [pairsLeft, setPairsLeft] = useState(gameState.pairsLeft);
   const [score, setScore] = useState(gameState.score);
   const [highScore, setHighScore] = useState(gameState.highScore);
   const [bounty, setBounty] = useState(gameState.bounty);
   const [message, setMessage] = useState(gameState.message);
   const [rating, setRating] = useState(gameState.rating);
-  //const [guesses, setGuesses] = useState(gameState.guesses);
 
   useEffect(() => {
-    //gameState.register("pairs", setPairs);
     gameState.register("pairsLeft", setPairsLeft);
     gameState.register("score", setScore);
     gameState.register("highScore", setHighScore);
     gameState.register("rating", setRating);
     gameState.register("bounty", setBounty);
     gameState.register("message", setMessage);
-    //gameState.register("guesses", setGuesses);
-  }, []);
+  }, [gameState]);
 
   return (
     <div id="game-status" style={{ textAlign: "left", margin: "10px", width: "250px" }}>

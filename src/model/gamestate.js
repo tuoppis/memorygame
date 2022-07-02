@@ -1,89 +1,5 @@
 import GameEventHandler from "./gameeventhandler.js";
-
-export class CardInfo {
-  #index;
-  #symbol;
-  #turn;
-  #hide;
-  #select;
-  constructor(index, symbol, turn, hide, select) {
-    this.#index = index;
-    this.#symbol = symbol;
-    this.#turn = turn;
-    this.#hide = hide;
-    this.#select = select;
-  }
-
-  get index() {
-    return this.#index;
-  }
-  get symbol() {
-    return this.#symbol;
-  }
-
-  select() {
-    this.#select(true);
-  }
-  unSelect() {
-    this.#select(false);
-    this.#turn(false);
-  }
-
-  faceUp() {
-    this.#turn(true);
-  }
-
-  faceDown() {
-    this.#turn(false);
-  }
-
-  hide() {
-    this.#hide(true);
-  }
-
-  show() {
-    this.#hide(false);
-  }
-
-  reset() {
-    this.#turn(false);
-    this.#select(false);
-    this.#hide(false);
-  }
-}
-
-class GameData {
-  constructor(pairs) {
-    this.highScores = [];
-    this.reset(pairs);
-  }
-
-  reset(pairs) {
-    this.pairs = pairs;
-    this.pairsLeft = pairs;
-    this.bounty = pairs;
-    this.score = 0;
-    this.guesses = 0;
-    this.mode = "start";
-    this.message = "Start playing by clicking on the cards!";
-    this.ratingScale = 10 / (pairs * (pairs - 1));
-  }
-
-  getRating() {
-    const rating = (this.score - this.pairs) * this.ratingScale;
-    return (rating > 0) * rating;
-  }
-
-  getHighScore() {
-    return this.highScores[this.pairs];
-  }
-
-  trySetHighScore() {
-    if (this.score <= this.highScores[this.pairs]) return false;
-    this.highScores[this.pairs] = this.score;
-    return true;
-  }
-}
+import GameData from "./gamedata.js";
 
 export default class GameState extends GameEventHandler {
   #data;
@@ -126,15 +42,15 @@ export default class GameState extends GameEventHandler {
       this.#selected.forEach((card) => card.hide());
       this.event("score", (this.#data.score += this.#data.bounty));
       this.event("rating", this.#data.getRating());
-      this.#setValue("bounty", this.#bountyLimit(this.#data.bounty + 2));
       this.event("pairsLeft", --this.#data.pairsLeft);
+      this.#setValue("bounty", this.#bountyLimit(this.#data.bounty + 2));
       if (!this.#data.pairsLeft) {
         this.#setValue("mode", "ended");
         if (this.#data.trySetHighScore()) {
           this.event("highScore", this.#data.score);
           this.#setValue("message", "New Highscore, Congratulations!");
         } else {
-          this.#setValue("message", "You won the game");
+          this.#setValue("message", "You won the game!");
         }
       } else {
         this.#setValue("message", "You found a pair!");
@@ -195,7 +111,6 @@ export default class GameState extends GameEventHandler {
   }
 
   cardsReady() {
-    //this.#mode = "play";
     this.#setValue("mode", "play");
   }
 
@@ -205,13 +120,11 @@ export default class GameState extends GameEventHandler {
     switch (this.#selected.length) {
       case 0:
         this.#select(cardInfo);
-        //this.message = "Good, now select another card.";
         this.#setValue("message", "Good, now select another card.");
         return;
       case 1:
         if (this.#selected[0].index === cardInfo.index) {
           this.#clearSelect();
-          //this.message = "Ok, maybe some other card.";
           this.#setValue("message", "Ok, maybe some other card.");
         } else {
           this.#select(cardInfo);

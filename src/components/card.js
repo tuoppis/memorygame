@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect, useMemo } from "react";
+import { useState, useContext, useMemo } from "react";
 import { AppContext } from "../context.js";
-import { CardInfo } from "../model/gamestate.js";
+import CardInfo from "../model/cardinfo.js";
 import "./card.css";
 
 function Card({ index, symbol }) {

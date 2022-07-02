@@ -19,6 +19,5 @@ export default class GameEventHandler {
     } else {
       this.#call_functions[name] = [func];
     }
-    //console.log(`name: ${name}, func: ${typeof func}, func_arr: ${func_arr}, calls: ${this.#call_functions[name]}`);
   }
 }
