@@ -1,11 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
+import { AppContext } from "../context.js";
 import Options from "./options";
 
-// linear scale: score<=min -> 0, score==max -> 5
-const linScale = (score, pairs) => (score > pairs ? (10 * (score - pairs)) / (pairs * (pairs - 1)) : 0);
+function Status() {
+  const gameState = useContext(AppContext);
+  //const [pairs, setPairs] = useState(gameState.pairs);
+  const [pairsLeft, setPairsLeft] = useState(gameState.pairsLeft);
+  const [score, setScore] = useState(gameState.score);
+  const [highScore, setHighScore] = useState(gameState.highScore);
+  const [bounty, setBounty] = useState(gameState.bounty);
+  const [message, setMessage] = useState(gameState.message);
+  const [rating, setRating] = useState(gameState.rating);
+  //const [guesses, setGuesses] = useState(gameState.guesses);
 
-function Status({ score, highScore, bounty, pairs, pairsLeft, message, report }) {
-  const rating = Math.round(linScale(score, pairs));
+  useEffect(() => {
+    //gameState.register("pairs", setPairs);
+    gameState.register("pairsLeft", setPairsLeft);
+    gameState.register("score", setScore);
+    gameState.register("highScore", setHighScore);
+    gameState.register("rating", setRating);
+    gameState.register("bounty", setBounty);
+    gameState.register("message", setMessage);
+    //gameState.register("guesses", setGuesses);
+  }, []);
 
   return (
     <div id="game-status" style={{ textAlign: "left", margin: "10px", width: "250px" }}>
@@ -17,7 +34,7 @@ function Status({ score, highScore, bounty, pairs, pairsLeft, message, report })
       <p>Reward: {bounty}</p>
       <p>Pairs: {pairsLeft} (left)</p>
       <p>Rating: {"☺".repeat(rating)}</p>
-      <Options pairCount={pairs} report={report} />
+      <Options />
       <h4>{message}</h4>
     </div>
   );

@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { useState, useContext, useEffect, useMemo } from "react";
+import { AppContext } from "../context.js";
+import { CardInfo } from "../model/gamestate.js";
 import "./card.css";
 
-function Card({ index, symbol, click }) {
+function Card({ index, symbol }) {
+  const gameState = useContext(AppContext);
   const [selected, setSelected] = useState(false);
   const [turnUp, setTurnUp] = useState(false);
   const [hide, setHide] = useState(false);
-  const id = "card" + index;
-
-  const handleClick = (e) => click(e.target, setSelected, setTurnUp, setHide);
+  const info = useMemo(() => new CardInfo(index, symbol, setTurnUp, setHide, setSelected), [index, symbol]);
 
   return (
     <div
-      id={id}
+      id={"card" + index}
       className={`card${selected ? " selected" : ""}${turnUp ? " turned" : ""}${hide ? " hide" : ""}`}
-      onClick={handleClick}
+      onClick={() => gameState.click(info)}
       data-index={index}
       data-symbol={symbol}
     >

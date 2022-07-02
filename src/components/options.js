@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../context.js";
 
 function OptionButton({ title, value, callback }) {
   return (
@@ -10,8 +11,9 @@ function OptionButton({ title, value, callback }) {
   );
 }
 
-function Options({ pairCount, report }) {
-  const [pairs, setPairs] = useState(pairCount);
+function Options() {
+  const gameState = useContext(AppContext);
+  const [pairs, setPairs] = useState(10);
 
   const handleValue = (e) => {
     const val = Number(e.target.value);
@@ -22,7 +24,7 @@ function Options({ pairCount, report }) {
 
   const handleButton = (value) => {
     setPairs(value);
-    report({ pairs: value });
+    gameState.reset(value);
   };
 
   return (
@@ -30,7 +32,6 @@ function Options({ pairCount, report }) {
       <label>
         Pairs: <input type="number" value={pairs} onChange={handleValue} />
       </label>
-
       <OptionButton title="Custom" value={pairs} callback={handleButton} />
       <OptionButton title="Small" value={6} callback={handleButton} />
       <OptionButton title="Medium" value={10} callback={handleButton} />
@@ -38,70 +39,6 @@ function Options({ pairCount, report }) {
       <OptionButton title="Extra" value={21} callback={handleButton} />
       <OptionButton title="Super" value={27} callback={handleButton} />
       <OptionButton title="Mega" value={36} callback={handleButton} />
-      {/* <button onClick={() => report({ pairs })}>
-        <b>Custom</b>
-        <br />
-        {pairs}
-      </button>
-      <button
-        onClick={() => {
-          setPairs(6);
-          report({ pairs: 6 });
-        }}
-      >
-        <b>Small</b>
-        <br />6
-      </button>
-      <button
-        onClick={() => {
-          setPairs(10);
-          report({ pairs: 10 });
-        }}
-      >
-        <b>Medium</b>
-        <br />
-        10
-      </button>
-      <button
-        onClick={() => {
-          setPairs(15);
-          report({ pairs: 15 });
-        }}
-      >
-        <b>Large</b>
-        <br />
-        15
-      </button>
-      <button
-        onClick={() => {
-          setPairs(21);
-          report({ pairs: 21 });
-        }}
-      >
-        <b>Extra</b>
-        <br />
-        21
-      </button>
-      <button
-        onClick={() => {
-          setPairs(27);
-          report({ pairs: 27 });
-        }}
-      >
-        <b>Super</b>
-        <br />
-        27
-      </button>
-      <button
-        onClick={() => {
-          setPairs(36);
-          report({ pairs: 36 });
-        }}
-      >
-        <b>Mega</b>
-        <br />
-        36
-      </button> */}
     </div>
   );
 }
