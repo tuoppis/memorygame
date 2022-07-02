@@ -74,6 +74,7 @@ export default class GameState extends GameEventHandler {
     this.#data.reset(pairs);
     for (const [key, value] of Object.entries(this.#data)) this.event(key, value);
     this.event("rating", 0);
+    this.event("highScore", this.#data.getHighScore());
   }
 
   get pairs() {

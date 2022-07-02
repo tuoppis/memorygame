@@ -29,7 +29,7 @@ function Status() {
       </p>
       <p>Reward: {bounty}</p>
       <p>Pairs: {pairsLeft} (left)</p>
-      <p>Rating: {"☺".repeat(rating)}</p>
+      <p>Rating: {"☺".repeat(Math.round(rating))}</p>
       <Options />
       <h4>{message}</h4>
     </div>
