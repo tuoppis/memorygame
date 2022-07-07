@@ -121,7 +121,7 @@ export default class GameState extends GameEventHandler {
     switch (this.#selected.length) {
       case 0:
         this.#select(cardInfo);
-        this.#setValue("message", "Good, now select another card.");
+        this.#setValue("message", "Select another card.");
         return;
       case 1:
         if (this.#selected[0].index === cardInfo.index) {
@@ -135,7 +135,7 @@ export default class GameState extends GameEventHandler {
       default:
         if (this.#selected[0].index !== cardInfo.index && this.#selected[1].index !== cardInfo.index) {
           this.#clearSelect();
-          this.#setValue("message", "Good, now select another card.");
+          this.#setValue("message", "Select another card.");
           this.#select(cardInfo);
         } else {
           this.#clearSelect();

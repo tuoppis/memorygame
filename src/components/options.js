@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useCallback } from "react";
 import { AppContext } from "../context.js";
 
 function OptionButton({ title, value, callback }) {
@@ -14,18 +14,17 @@ function OptionButton({ title, value, callback }) {
 function Options() {
   const gameState = useContext(AppContext);
   const [pairs, setPairs] = useState(10);
-
-  const handleValue = (e) => {
-    const val = Number(e.target.value);
-    if (val < 6) return setPairs(6);
-    if (val > 36) return setPairs(36);
-    setPairs(val || 10);
-  };
-
-  const handleButton = (value) => {
-    setPairs(value);
-    gameState.reset(value);
-  };
+  const handleButton = useCallback(
+    (value) => {
+      setPairs(value);
+      gameState.reset(value);
+    },
+    [gameState]
+  );
+  const handleValue = useCallback(
+    (e) => setPairs(Math.max(6, Math.min(gameState.symbolCount, Number(e.target.value))) || 10),
+    [gameState]
+  );
 
   return (
     <div className="options-area" id="options">
